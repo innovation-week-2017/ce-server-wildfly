@@ -1,5 +1,6 @@
 package io.apicur.innovationweek.server.rest;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -8,6 +9,7 @@ import javax.ws.rs.ext.Provider;
  * Provider that maps an error.
  */
 @Provider
+@ApplicationScoped
 public class RestExceptionMapper implements ExceptionMapper<AbstractRestException> {
 
     /**

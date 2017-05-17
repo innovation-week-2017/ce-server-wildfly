@@ -5,6 +5,7 @@ public class Address {
 	private String name;
 	private String address1;
 	private String address2;
+	private String country;
 	private String city;
 	private String state;
 	private String zip;
@@ -55,6 +56,14 @@ public class Address {
 
 	public void setZip(String zip) {
 		this.zip = zip;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
 }

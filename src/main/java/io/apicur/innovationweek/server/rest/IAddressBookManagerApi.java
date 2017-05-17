@@ -1,7 +1,7 @@
 
 package io.apicur.innovationweek.server.rest;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import io.apicur.innovationweek.server.models.AddressBook;
+import io.apicur.innovationweek.server.models.AddressBookWithAddresses;
 import io.apicur.innovationweek.server.models.NewAddressBook;
 
 /**
@@ -32,7 +33,7 @@ public interface IAddressBookManagerApi {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<AddressBook> listAddressBooks();
+	public Set<AddressBook> listAddressBooks();
 	
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -42,11 +43,11 @@ public interface IAddressBookManagerApi {
 	@GET
 	@Path("{addressBookId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public AddressBook getAddressBook(@PathParam("addressBookId") int addressBookId) throws NotFoundException;
+	public AddressBookWithAddresses getAddressBook(@PathParam("addressBookId") String addressBookId) throws NotFoundException;
 
 	@DELETE
 	@Path("{addressBookId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void deleteAddressBook(@PathParam("addressBookId") int addressBookId) throws NotFoundException;
+	public void deleteAddressBook(@PathParam("addressBookId") String addressBookId) throws NotFoundException;
 
 }
