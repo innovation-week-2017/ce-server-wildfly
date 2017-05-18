@@ -14,8 +14,14 @@ import javax.websocket.server.ServerEndpoint;
 
 import io.apicur.innovationweek.server.data.AddressBookEditingSession;
 import io.apicur.innovationweek.server.data.IDataService;
+import io.apicur.innovationweek.server.models.ws.MessageDecoder;
+import io.apicur.innovationweek.server.models.ws.MessageEncoder;
 
-@ServerEndpoint("/editAddressBook/{addressBookId}/{username}")
+@ServerEndpoint(
+	value="/editAddressBook/{addressBookId}/{username}",
+	encoders={ MessageEncoder.class },
+	decoders={ MessageDecoder.class }
+)
 @ApplicationScoped
 public class EditAddressBookEndpoint {
 
@@ -47,7 +53,7 @@ public class EditAddressBookEndpoint {
 
 		AddressBookEditingSession esession = sessions.get(bookId);
 		if (esession != null) {
-			esession.sendToOthers(message, session);
+			//esession.sendToOthers(message, session);
 		}
 	}
 

@@ -1,10 +1,13 @@
 package io.apicur.innovationweek.server.data;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.websocket.Session;
+
+import io.apicur.innovationweek.server.models.ws.JoinMessage;
+import io.apicur.innovationweek.server.models.ws.LeaveMessage;
+import io.apicur.innovationweek.server.models.ws.Message;
 
 public class AddressBookEditingSession {
 	
@@ -28,7 +31,7 @@ public class AddressBookEditingSession {
 		debug(session, "User %s joining session %s", username, addressBookId);
 		// Returns null if session is joining for the first time...
 		if (this.participants.putIfAbsent(session.getId(), session) == null) {
-			this.sendToOthers("User " + username + " has joined the session!", session);
+			this.sendToOthers(new JoinMessage(username), session);
 		}
 	}
 	
@@ -40,7 +43,7 @@ public class AddressBookEditingSession {
 		String username = session.getPathParameters().get("username");
 		debug(session, "User %s leaving session %s", username, addressBookId);
 		this.participants.remove(session.getId());
-		this.sendToOthers("User " + username + " left the session.", session);
+		this.sendToOthers(new LeaveMessage(username), session);
 		if (this.participants.isEmpty()) {
 			debug(session, "All users have left the editing session for %s - closing session", addressBookId);
 			this.close();
@@ -52,15 +55,15 @@ public class AddressBookEditingSession {
 	 * @param message
 	 * @param excluding
 	 */
-	public void sendToOthers(String message, Session excluding) {
+	public void sendToOthers(Message message, Session excluding) {
 		debug(excluding, "**FROM** Sending test message: %s", message);
 		for (Session session : this.participants.values()) {
 			debug(session, "Iterating through participants.");
 			if (!session.getId().equals(excluding.getId())) {
 				try {
 					debug(session, "**TO** Sending message: %s", message);
-					session.getBasicRemote().sendText(message);
-				} catch (IOException e) {
+					session.getBasicRemote().sendObject(message);
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -72,13 +75,13 @@ public class AddressBookEditingSession {
 	 * @param message
 	 * @param session
 	 */
-	public void sendToAll(String message) {
+	public void sendToAll(Message message) {
 		System.out.println("[AddressBookEditingSession] Sending message (ALL): " + message);
 		for (Session session : this.participants.values()) {
 			try {
 				debug(session, "**TO** Sending message: %s", message);
-				session.getBasicRemote().sendText(message);
-			} catch (IOException e) {
+				session.getBasicRemote().sendObject(message);
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
