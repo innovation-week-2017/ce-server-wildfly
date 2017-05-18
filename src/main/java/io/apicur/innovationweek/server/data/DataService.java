@@ -126,5 +126,11 @@ public class DataService implements IDataService {
 		}
 		return book;
 	}
+
+	@Override
+	public AddressBookEditingSession editAddressBook(String addressBookId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

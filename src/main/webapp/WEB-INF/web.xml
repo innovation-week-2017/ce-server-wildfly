@@ -20,7 +20,8 @@
   </filter>
   <filter-mapping>
     <filter-name>SimpleAuthenticationFilter</filter-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>/</url-pattern>
+    <url-pattern>/addressBooks/*</url-pattern>
   </filter-mapping>
 
   <!-- Disable Caching Filter -->

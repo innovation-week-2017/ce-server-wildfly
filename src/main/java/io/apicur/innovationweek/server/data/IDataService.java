@@ -14,5 +14,7 @@ public interface IDataService {
 	public AddressBookWithAddresses getAddressBook(String addressBookId);
 
 	public AddressBook deleteAddressBook(String addressBookId);
+	
+	public AddressBookEditingSession editAddressBook(String addressBookId);
 
 }
