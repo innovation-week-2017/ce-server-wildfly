@@ -14,6 +14,7 @@ import javax.websocket.server.ServerEndpoint;
 
 import io.apicur.innovationweek.server.data.AddressBookEditingSession;
 import io.apicur.innovationweek.server.data.IDataService;
+import io.apicur.innovationweek.server.models.ws.Message;
 import io.apicur.innovationweek.server.models.ws.MessageDecoder;
 import io.apicur.innovationweek.server.models.ws.MessageEncoder;
 
@@ -47,13 +48,12 @@ public class EditAddressBookEndpoint {
 	}
 
 	@OnMessage
-	public void onMessage(Session session, String message) {
+	public void onMessage(Session session, Message message) {
 		String bookId = session.getPathParameters().get("addressBookId");
-//		String username = session.getPathParameters().get("username");
 
 		AddressBookEditingSession esession = sessions.get(bookId);
 		if (esession != null) {
-			//esession.sendToOthers(message, session);
+			esession.sendToOthers(message, session);
 		}
 	}
 

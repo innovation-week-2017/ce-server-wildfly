@@ -1,8 +1,10 @@
 package io.apicur.innovationweek.server.data;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.websocket.EncodeException;
 import javax.websocket.Session;
 
 import io.apicur.innovationweek.server.models.ws.JoinMessage;
@@ -29,6 +31,17 @@ public class AddressBookEditingSession {
 	public void join(Session session) {
 		String username = session.getPathParameters().get("username");
 		debug(session, "User %s joining session %s", username, addressBookId);
+
+		// Tell the new user about all the existing users.
+		for (Session psession : participants.values()) {
+			String otherUser = psession.getPathParameters().get("username");
+			try {
+				session.getBasicRemote().sendObject(new JoinMessage(otherUser));
+			} catch (IOException | EncodeException e) {
+				e.printStackTrace();
+			}
+		}
+
 		// Returns null if session is joining for the first time...
 		if (this.participants.putIfAbsent(session.getId(), session) == null) {
 			this.sendToOthers(new JoinMessage(username), session);
