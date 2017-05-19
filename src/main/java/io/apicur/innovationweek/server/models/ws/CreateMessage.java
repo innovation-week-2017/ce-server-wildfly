@@ -1,15 +1,17 @@
 package io.apicur.innovationweek.server.models.ws;
 
+import io.apicur.innovationweek.server.models.Address;
+
 public class CreateMessage extends Message {
 	
-	private String addressName;
+	private Address address;
 
-	public String getAddressName() {
-		return addressName;
+	public Address getAddress() {
+		return address;
 	}
 
-	public void setAddressName(String addressName) {
-		this.addressName = addressName;
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 }
